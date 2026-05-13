@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assist-IA-Research</title>
+  <style>
+    :root {
+      --ink: #07111f;
+      --navy: #081b3a;
+      --blue: #2f6bff;
+      --blue-soft: #eaf2ff;
+      --cyan: #20d3ee;
+      --mint: #47e0a1;
+      --paper: #f7f8fa;
+      --surface: #ffffff;
+      --text: #172033;
+      --muted: #657083;
+      --line: #dfe7f3;
+      --amber: #ffb84d;
+      --shadow: 0 20px 45px rgba(8, 27, 58, 0.12);
+      --radius: 8px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    code {
+      padding: 0.1rem 0.28rem;
+      border-radius: 5px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.9em;
+    }
+
+    .site-shell {
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #f7f8fa 46rem),
+        var(--paper);
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(7, 17, 31, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 2rem));
+      height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: #fff;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(32, 211, 238, 0.7);
+      border-radius: var(--radius);
+      color: var(--cyan);
+      background: rgba(32, 211, 238, 0.08);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.85rem;
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.9rem;
+      transition: color 160ms ease, background 160ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-line {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: var(--progress, 0%);
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      transition: width 120ms linear;
+    }
+
+    .hero {
+      min-height: 720px;
+      position: relative;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+      background:
+        linear-gradient(120deg, rgba(7, 17, 31, 0.98), rgba(8, 27, 58, 0.9) 50%, rgba(7, 17, 31, 0.96)),
+        var(--ink);
+    }
+
+    #researchCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.72;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(7, 17, 31, 0.92) 0%, rgba(7, 17, 31, 0.7) 48%, rgba(7, 17, 31, 0.35) 100%),
+        linear-gradient(0deg, rgba(7, 17, 31, 0.35), transparent 28%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 8rem 0 5rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1.25rem;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid rgba(32, 211, 238, 0.35);
+      border-radius: var(--radius);
+      background: rgba(32, 211, 238, 0.08);
+      color: #baf5ff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 0 0 rgba(71, 224, 161, 0.48);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(71, 224, 161, 0.48); }
+      70% { box-shadow: 0 0 0 10px rgba(71, 224, 161, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(71, 224, 161, 0); }
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      max-width: 890px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 5.35rem;
+      line-height: 0.98;
+      font-weight: 740;
+      letter-spacing: 0;
+    }
+
+    .hero h1 span {
+      color: #8defff;
+    }
+
+    .hero-sub {
+      max-width: 760px;
+      margin-top: 1.25rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1.24rem;
+      line-height: 1.68;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0 1.05rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 760;
+      cursor: pointer;
+      transition: transform 160ms ease, border 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: #061426;
+      background: var(--cyan);
+      box-shadow: 0 16px 35px rgba(32, 211, 238, 0.22);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-metrics {
+      width: min(860px, 100%);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .metric {
+      min-height: 112px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .metric:last-child {
+      border-right: 0;
+    }
+
+    .metric .value {
+      color: var(--mint);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.4rem;
+      line-height: 1;
+      font-weight: 740;
+    }
+
+    .metric .label {
+      margin-top: 0.55rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.82rem;
+      font-weight: 720;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    section {
+      scroll-margin-top: 86px;
+    }
+
+    .section {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 6rem 0;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 2.6rem;
+    }
+
+    .kicker {
+      margin-bottom: 0.75rem;
+      color: var(--blue);
+      font-size: 0.82rem;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 3rem;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-heading p {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 2.25rem;
+      align-items: start;
+    }
+
+    .problem-text {
+      display: grid;
+      gap: 1.1rem;
+      color: #35527b;
+      font-size: 1.03rem;
+      line-height: 1.75;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 0.9rem;
+      align-items: start;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(8, 27, 58, 0.06);
+    }
+
+    .signal-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 820;
+    }
+
+    .signal strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+
+    .signal p {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+
+    .capability {
+      min-height: 148px;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(8, 27, 58, 0.06);
+    }
+
+    .capability b {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 0.65rem;
+      padding: 0 0.5rem;
+      border-radius: var(--radius);
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    .capability strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--navy);
+    }
+
+    .capability p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .diagram-gallery {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .diagram-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.08);
+    }
+
+    .diagram-card header {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0 0.9rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--navy);
+      font-size: 0.82rem;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .diagram-card header span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: none;
+    }
+
+    .diagram-frame {
+      display: block;
+      width: 100%;
+      max-height: 360px;
+      padding: 0.75rem;
+      background: #fbfcfe;
+      object-fit: contain;
+    }
+
+    .workflow-wrap {
+      background:
+        linear-gradient(180deg, #fff 0%, #f7f8fa 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .workflow-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .step-tabs {
+      position: sticky;
+      top: 92px;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .step-tab {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--muted);
+      text-align: left;
+      cursor: pointer;
+      transition: border 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .step-tab:hover {
+      transform: translateX(2px);
+      border-color: rgba(47, 107, 255, 0.42);
+    }
+
+    .step-tab.active {
+      color: var(--navy);
+      border-color: rgba(47, 107, 255, 0.65);
+      background: var(--blue-soft);
+    }
+
+    .step-tab span {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: #f2f6fc;
+      color: var(--blue);
+      font-weight: 840;
+    }
+
+    .step-tab.active span {
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .step-tab strong {
+      display: block;
+      line-height: 1.2;
+      font-size: 0.94rem;
+    }
+
+    .workflow-stage {
+      min-height: 536px;
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .stage-header {
+      padding-left: 1.4rem;
+      border-left: 4px solid var(--blue);
+    }
+
+    .stage-header h3 {
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.25rem;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .stage-header p {
+      max-width: 760px;
+      margin-top: 0.55rem;
+      color: #35527b;
+      line-height: 1.66;
+    }
+
+    .stage-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .io-panel {
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.07);
+    }
+
+    .io-head {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 1rem;
+      border-bottom: 1px solid var(--line);
+      font-weight: 820;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      letter-spacing: 0;
+    }
+
+    .io-panel.input .io-head {
+      color: #d9eaff;
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+      background: #061426;
+    }
+
+    .io-panel.output .io-head {
+      color: var(--navy);
+      background: #f0f5fc;
+    }
+
+    .io-body {
+      flex: 1;
+      padding: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .io-panel.input .io-body {
+      color: #d9eaff;
+      background: #07162d;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      white-space: pre-wrap;
+    }
+
+    .io-panel.output .io-body {
+      color: #16233a;
+      background: #fff;
+      font-size: 0.98rem;
+    }
+
+    .code-key {
+      color: #8defff;
+      font-weight: 820;
+    }
+
+    .io-body strong {
+      color: var(--navy);
+    }
+
+    .stage-note {
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .stage-note strong {
+      color: var(--navy);
+    }
+
+    .validation-band {
+      background:
+        linear-gradient(120deg, rgba(8, 27, 58, 0.98), rgba(7, 17, 31, 0.98));
+      color: #fff;
+    }
+
+    .validation-band .section {
+      display: grid;
+      grid-template-columns: 0.72fr 1.28fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .validation-band .kicker {
+      color: var(--mint);
+    }
+
+    .validation-band h2 {
+      color: #fff;
+    }
+
+    .validation-band p {
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .limits {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+
+    .limit {
+      min-height: 132px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .limit strong {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: #fff;
+    }
+
+    .limit p {
+      font-size: 0.94rem;
+      line-height: 1.62;
+    }
+
+    .paper-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .paper-cover {
+      min-height: 430px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem;
+      overflow: hidden;
+      border-radius: var(--radius);
+      color: #fff;
+      background:
+        linear-gradient(160deg, #07111f, #081b3a 58%, #0d2e58);
+      box-shadow: var(--shadow);
+    }
+
+    .paper-cover::before {
+      content: "";
+      position: absolute;
+      inset: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
+
+    .paper-label {
+      position: relative;
+      z-index: 1;
+      color: #8defff;
+      font-size: 0.78rem;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .paper-cover h3 {
+      position: relative;
+      z-index: 1;
+      max-width: 360px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.35rem;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .paper-cover small {
+      position: relative;
+      z-index: 1;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.6;
+    }
+
+    .paper-detail {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .paper-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .paper-stat {
+      min-height: 105px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .paper-stat:last-child {
+      border-right: 0;
+    }
+
+    .paper-stat b {
+      color: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .paper-stat span {
+      margin-top: 0.45rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .method {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(8, 27, 58, 0.06);
+    }
+
+    .method strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+    }
+
+    .method p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .pdf-preview {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.08);
+    }
+
+    .pdf-preview header {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 1rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--navy);
+      font-size: 0.8rem;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .pdf-preview img {
+      display: block;
+      width: 100%;
+      max-height: 720px;
+      object-fit: contain;
+      padding: 1rem;
+      background: #eef3fb;
+    }
+
+    .footer {
+      background: #061426;
+      color: rgba(255, 255, 255, 0.72);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .footer strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: #fff;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 520ms ease, transform 520ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        height: auto;
+        min-height: 64px;
+        padding: 0.6rem 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.15rem;
+      }
+
+      .nav-links a {
+        white-space: nowrap;
+      }
+
+      .hero {
+        min-height: 680px;
+      }
+
+      .hero-inner {
+        padding-top: 9rem;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+      }
+
+      .problem-grid,
+      .system-grid,
+      .workflow-layout,
+      .validation-band .section,
+      .paper-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .step-tabs {
+        position: static;
+        grid-template-columns: repeat(5, minmax(150px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 0.35rem;
+      }
+
+      .step-tab {
+        min-width: 150px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        min-height: 640px;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .hero-sub {
+        font-size: 1.03rem;
+      }
+
+      .hero-metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      }
+
+      .metric:nth-child(2) {
+        border-right: 0;
+      }
+
+      .metric:nth-child(3),
+      .metric:nth-child(4) {
+        border-bottom: 0;
+      }
+
+      .section {
+        padding: 4rem 0;
+      }
+
+      .section-heading h2 {
+        font-size: 2.25rem;
+      }
+
+      .stage-grid,
+      .capability-grid,
+      .limits,
+      .paper-stats,
+      .method-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-preview img {
+        max-height: 520px;
+      }
+
+      .paper-stat {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .paper-stat:last-child {
+        border-bottom: 0;
+      }
+
+    }
+
+    @media (max-width: 520px) {
+      .brand {
+        font-size: 0.94rem;
+      }
+
+      .hero h1 {
+        font-size: 2.55rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .metric {
+        min-height: 98px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ===== Comparación de outputs ===== */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .comparison-col {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.07);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comparison-col.accent {
+      border-color: rgba(47, 107, 255, 0.35);
+      box-shadow: 0 14px 40px rgba(47, 107, 255, 0.14);
+    }
+
+    .comparison-col-head {
+      padding: 1.25rem 1.25rem 1rem;
+    }
+
+    .comparison-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 0.65rem;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: var(--paper);
+      font-size: 0.74rem;
+      font-weight: 820;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      margin-bottom: 0.65rem;
+    }
+
+    .comparison-badge.accent {
+      color: var(--blue);
+      background: var(--blue-soft);
+      border-color: rgba(47, 107, 255, 0.28);
+    }
+
+    .comparison-col-title {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--navy);
+      font-size: 1.08rem;
+      line-height: 1.28;
+      margin: 0;
+    }
+
+    .comparison-metrics {
+      padding: 0.55rem 1.25rem;
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 720;
+    }
+
+    .comparison-body {
+      padding: 1rem 1.25rem;
+      flex: 1;
+    }
+
+    .comparison-abstract {
+      color: #35527b;
+      font-size: 0.93rem;
+      line-height: 1.68;
+      font-style: italic;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 0.85rem;
+    }
+
+    .comparison-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.5rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .comparison-features li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.55rem;
+      font-size: 0.93rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .comparison-features li::before {
+      content: "→";
+      color: var(--blue);
+      flex-shrink: 0;
+      font-size: 0.8rem;
+    }
+
+    .comparison-footer {
+      padding: 0.85rem 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ===== Herramienta de validación académica ===== */
+    .acad-tool {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.07);
+    }
+
+    .acad-table-head {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.74rem;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .acad-table-head span.accent-col {
+      color: var(--mint);
+    }
+
+    .acad-dimension {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .acad-dimension:last-of-type {
+      border-bottom: 0;
+    }
+
+    .acad-dim-header {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      background: #f0f5fc;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid var(--line);
+      transition: background 160ms ease;
+    }
+
+    .acad-dim-header:hover {
+      background: #e5eef9;
+    }
+
+    .acad-dim-title {
+      color: var(--navy);
+      font-size: 0.86rem;
+      font-weight: 820;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .acad-dim-toggle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: transform 200ms ease;
+      display: inline-block;
+    }
+
+    .acad-dimension.collapsed .acad-dim-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .acad-dimension.collapsed .acad-rows {
+      display: none;
+    }
+
+    .acad-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      transition: background 160ms ease;
+    }
+
+    .acad-row:hover {
+      background: #f7f9fd;
+    }
+
+    .acad-row:last-child {
+      border-bottom: 0;
+    }
+
+    .acad-criterion-name {
+      font-weight: 760;
+      color: var(--navy);
+      font-size: 0.93rem;
+      margin-bottom: 0.18rem;
+    }
+
+    .acad-criterion-desc {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .acad-score-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .acad-score-value {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.3rem;
+      font-weight: 740;
+      line-height: 1;
+    }
+
+    .acad-score-value.accent {
+      color: var(--blue);
+    }
+
+    .acad-score-value.muted-score {
+      color: var(--muted);
+    }
+
+    .acad-bar-track {
+      height: 5px;
+      background: var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .acad-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .acad-bar-fill.accent {
+      background: var(--blue);
+    }
+
+    .acad-bar-fill.muted-score {
+      background: #c0cbd8;
+    }
+
+    .acad-row-notes {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-top: 0.55rem;
+      padding-top: 0.55rem;
+      border-top: 1px dashed var(--line);
+    }
+
+    .acad-row-notes.hidden {
+      display: none;
+    }
+
+    .acad-note {
+      padding: 0.65rem 0.75rem;
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .acad-note-label {
+      font-weight: 820;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .acad-note p {
+      font-size: 0.87rem;
+      color: var(--text);
+      line-height: 1.58;
+    }
+
+    .acad-totals {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .acad-totals-label {
+      font-weight: 820;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      align-self: center;
+    }
+
+    .acad-total-score {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.55rem;
+      font-weight: 740;
+      line-height: 1;
+    }
+
+    .acad-total-score.accent {
+      color: var(--mint);
+    }
+
+    .acad-total-score.muted-score {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .acad-total-pct {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 0.2rem;
+    }
+
+    @media (max-width: 760px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .acad-table-head {
+        display: none;
+      }
+
+      .acad-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .acad-criterion-name,
+      .acad-criterion-desc {
+        grid-column: 1 / -1;
+      }
+
+      .acad-totals {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .acad-totals-label {
+        grid-column: 1 / -1;
+      }
+
+      .acad-row-notes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar" aria-label="Navegación principal">
+      <nav class="nav">
+        <a class="brand" href="#inicio" aria-label="Assist-IA-Research">
+          <span class="brand-mark">AI</span>
+          <span>Assist-IA-Research</span>
+        </a>
+        <div class="nav-links">
+          <a href="#sistema">Sistema</a>
+          <a href="#problema">Problema</a>
+          <a href="#flujo">Flujo</a>
+          <a href="#validacion">Validación</a>
+          <a href="#comparacion">Comparación</a>
+          <a href="#academica">Académica</a>
+          <a href="#paper">Paper</a>
+        </div>
+      </nav>
+      <div class="progress-line" aria-hidden="true"></div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <canvas id="researchCanvas" aria-hidden="true"></canvas>
+        <div class="hero-inner">
+          <div class="eyebrow"><span class="pulse"></span> Ecosistema de investigación con IA</div>
+          <h1>IA como <span>infraestructura</span><br />de investigación</h1>
+          <p class="hero-sub">
+            Un sistema de apoyo que convierte una idea inicial en agenda estructurada,
+            revisión de literatura, diseño empírico preliminar y primer borrador académico.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#flujo">Ver flujo de trabajo</a>
+            <a class="btn btn-secondary" href="https://drive.google.com/file/d/1CHYMnpIbdgftdkOhbtPdTzm_TxdmK_u6/view?usp=sharing" target="_blank" rel="noreferrer">Ver paper completo</a>
+          </div>
+          <div class="hero-metrics" aria-label="Metricas del proyecto">
+            <div class="metric">
+              <span class="value" data-count="5">0</span>
+              <span class="label">Etapas</span>
+            </div>
+            <div class="metric">
+              <span class="value" data-count="16">0</span>
+              <span class="label">Referencias</span>
+            </div>
+            <div class="metric">
+              <span class="value">~2h</span>
+              <span class="label">Idea a draft</span>
+            </div>
+            <div class="metric">
+              <span class="value" data-count="1">0</span>
+              <span class="label">Paper preliminar</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="sistema">
+        <div class="section-heading">
+          <div class="kicker">Arquitectura del proyecto</div>
+          <h2>Un sistema de investigación con comandos, memoria y ciclo de paper</h2>
+          <p>
+            Assist-IA-Research no es solo un chatbot: combina una base de conocimiento,
+            comandos de investigación y un flujo que conecta detección de ideas,
+            búsqueda, síntesis, redacción y revisión.
+          </p>
+        </div>
+
+        <div class="system-grid">
+          <div class="capability-grid" aria-label="Acciones principales del sistema">
+            <article class="capability">
+              <b>Detect</b>
+              <strong>Monitorear oportunidades</strong>
+              <p>Identifica temas emergentes y señales que pueden convertirse en una idea de paper.</p>
+            </article>
+            <article class="capability">
+              <b>Explore</b>
+              <strong>Buscar y mapear literatura</strong>
+              <p>Usa <code>SEARCH:</code>, <code>MAP:</code> y <code>ANALYZE:</code> para encontrar papers, comparar mecanismos y ubicar brechas.</p>
+            </article>
+            <article class="capability">
+              <b>Build</b>
+              <strong>Convertir ideas en diseño</strong>
+              <p><code>FROM_IDEA:</code> y <code>DEVELOP:</code> afinan la pregunta, la contribución, los datos y la estrategia empírica.</p>
+            </article>
+            <article class="capability">
+              <b>Write</b>
+              <strong>Redactar y revisar secciones</strong>
+              <p>Aplica `researcher-voice.md`, `writing-samples.md` y `paper-structure-template.md` para producir prosa académica consistente.</p>
+            </article>
+          </div>
+
+          <div class="diagram-gallery">
+            <article class="diagram-card">
+              <header>Paper lifecycle <span>de señal a envío</span></header>
+              <img class="diagram-frame" src="paper_lifecycle_v3.svg" alt="Ciclo de vida del paper y comandos del sistema" />
+            </article>
+            <article class="diagram-card">
+              <header>Command table <span>acciones disponibles</span></header>
+              <img class="diagram-frame" src="command_table_v2.svg" alt="Tabla de comandos del proyecto de investigación" />
+            </article>
+            <article class="diagram-card">
+              <header>Tool connections <span>herramientas y memoria</span></header>
+              <img class="diagram-frame" src="tools_connections_v4.svg" alt="Conexiones entre herramientas, comandos y archivos del proyecto" />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="problema">
+        <div class="section-heading">
+          <div class="kicker">Contexto</div>
+          <h2>La investigación académica avanza entre fragmentos</h2>
+          <p>
+            La propuesta gana fuerza cuando se presenta como infraestructura: un sistema
+            que ordena, tensiona y acelera ciclos sin reemplazar el juicio experto del investigador.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="problem-text">
+            <p>
+              Assist-IA-Research puede mostrarse menos como una página informativa y más como una
+              demostración navegable de un proceso: de una intuición inicial a un artefacto
+              académico que puede revisarse, corregirse y defenderse.
+            </p>
+            <p>
+              El tono ideal combina autoridad universitaria, lenguaje claro y señales visuales de
+              sistema: mapas, etapas, entradas, salidas, límites y evidencia.
+            </p>
+          </div>
+
+          <div class="signal-list">
+            <article class="signal">
+              <div class="signal-icon">01</div>
+              <div>
+                <strong>Menos plantilla, más producto</strong>
+                <p>La página debe sentirse como una demo viva, no solo como una ficha de proyecto.</p>
+              </div>
+            </article>
+            <article class="signal">
+              <div class="signal-icon">02</div>
+              <div>
+                <strong>Más jerarquía visual</strong>
+                <p>Las ideas clave necesitan respirar: titulares, métricas, paneles y rutas claras.</p>
+              </div>
+            </article>
+            <article class="signal">
+              <div class="signal-icon">03</div>
+              <div>
+                <strong>Rigor sin pesadez</strong>
+                <p>La validación metodológica debe aparecer como parte central de la experiencia.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="workflow-wrap" id="flujo">
+        <section class="section reveal">
+          <div class="section-heading">
+            <div class="kicker">Flujo de trabajo</div>
+            <h2>Cinco pasos, un paper reproducible</h2>
+            <p>
+              Cada etapa muestra cómo una interacción con IA se transforma en insumo académico:
+              pregunta, mapa de literatura, estrategia empírica o borrador estructurado.
+            </p>
+          </div>
+
+          <div class="workflow-layout">
+            <div class="step-tabs" role="tablist" aria-label="Etapas del flujo de trabajo">
+              <button class="step-tab active" type="button" data-step="0" role="tab" aria-selected="true">
+                <span>01</span><strong>Idea</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="1" role="tab" aria-selected="false">
+                <span>02</span><strong>Búsqueda</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="2" role="tab" aria-selected="false">
+                <span>03</span><strong>Síntesis</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="3" role="tab" aria-selected="false">
+                <span>04</span><strong>Diseño</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="4" role="tab" aria-selected="false">
+                <span>05</span><strong>Redacción</strong>
+              </button>
+            </div>
+
+            <div class="workflow-stage" aria-live="polite">
+              <div class="stage-header">
+                <h3 id="stageTitle"></h3>
+                <p id="stageDescription"></p>
+              </div>
+
+              <div class="stage-grid">
+                <article class="io-panel input">
+                  <div class="io-head">Prompt fiel <span id="stageCode"></span></div>
+                  <div class="io-body" id="stageInput"></div>
+                </article>
+
+                <article class="io-panel output">
+                  <div class="io-head">Salida producida <span>verificable</span></div>
+                  <div class="io-body" id="stageOutput"></div>
+                </article>
+              </div>
+
+              <div class="stage-note">
+                <strong>Fuente del flujo:</strong> comandos y plantillas de <code>prompt-templates-commands.md</code>, <code>system-prompt-research-project.md</code>,
+                <code>researcher-voice.md</code> y <code>paper-structure-template.md</code>.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="validation-band" id="validacion">
+        <div class="section reveal">
+          <div class="section-heading">
+              <div class="kicker">Validación</div>
+              <h2>Qué produce y qué no reemplaza</h2>
+              <p>
+              El valor no está en automatizar pensamiento académico, sino en reducir el tiempo
+              entre intuición, estructura, revisión y debate informado.
+            </p>
+          </div>
+
+          <div class="limits">
+            <article class="limit">
+              <strong>Produce</strong>
+              <p>Agenda inicial, mapa conceptual, vacíos de literatura, estructura del paper y primer borrador.</p>
+            </article>
+            <article class="limit">
+              <strong>No reemplaza</strong>
+              <p>Revisión experta, verificación de referencias, trabajo con datos ni estrategia causal final.</p>
+            </article>
+            <article class="limit">
+              <strong>Acelera</strong>
+              <p>Ciclos de iteración entre pregunta, evidencia, diseño y redacción preliminar.</p>
+            </article>
+            <article class="limit">
+              <strong>Expone</strong>
+              <p>Supuestos, límites, riesgos de validez y decisiones metodológicas que deben revisarse.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TAREA 2: Comparación de outputs ===== -->
+      <section class="section reveal" id="comparacion">
+        <div class="section-heading">
+          <div class="kicker">Comparación de outputs</div>
+          <h2>Prompt naive vs. ecosistema estructurado</h2>
+          <p>
+            El mismo tema de investigación, dos enfoques distintos. La diferencia no está en el
+            esfuerzo sino en la especificidad de la pregunta, el diseño de identificación y
+            el anclaje empírico.
+          </p>
+        </div>
+
+        <div class="comparison-grid">
+          <!-- Columna izquierda: naive -->
+          <div class="comparison-col">
+            <div class="comparison-col-head">
+              <div class="comparison-badge">Prompt directo</div>
+              <h3 class="comparison-col-title">Artificial Intelligence Adoption in Higher Education Institutions in Latin America</h3>
+            </div>
+            <div class="comparison-metrics">4,875 palabras · 35+ referencias · JEL: I23, O33, L38, D73</div>
+            <div class="comparison-body">
+              <p class="comparison-abstract">
+                "The rapid diffusion of artificial intelligence technologies across sectors has prompted increasing scholarly attention to their adoption patterns and impacts in higher education institutions throughout Latin America..."
+              </p>
+              <ul class="comparison-features">
+                <li>Pregunta amplia: impactos multidimensionales en toda LAC</li>
+                <li>Revisión narrativa exhaustiva, sin contribución causal propia</li>
+                <li>Marco teórico general: UTAUT, institutional theory, human capital</li>
+              </ul>
+            </div>
+            <div class="comparison-footer">
+              <span class="btn" style="min-height:42px;color:var(--muted);border:1px solid var(--line);background:var(--paper);cursor:default;font-size:0.9rem;">Ver paper naive · PDF próximamente</span>
+            </div>
+          </div>
+
+          <!-- Columna derecha: estructurado -->
+          <div class="comparison-col accent">
+            <div class="comparison-col-head">
+              <div class="comparison-badge accent">Ecosistema estructurado</div>
+              <h3 class="comparison-col-title">Does AI Adoption Improve Institutional Performance? Evidence from Colombian Higher Education</h3>
+            </div>
+            <div class="comparison-metrics">5,239 palabras · 18 referencias · JEL: I23, O33, J24, C23</div>
+            <div class="comparison-body">
+              <p class="comparison-abstract">
+                "The identification problem is fundamental to this literature. Administrative efficiency and student outcomes may drive AI adoption rather than result from it, and any cross-sectional comparison conflates adoption with institutional capacity..."
+              </p>
+              <ul class="comparison-features">
+                <li>Pregunta causal acotada: Colombia/SNIES, deserción y costos</li>
+                <li>Staggered DiD con Callaway &amp; Sant'Anna (2021)</li>
+                <li>Calibración con rangos plausibles derivados de evidencia LAC</li>
+              </ul>
+            </div>
+            <div class="comparison-footer">
+              <a class="btn btn-primary" href="https://drive.google.com/file/d/1CHYMnpIbdgftdkOhbtPdTzm_TxdmK_u6/view?usp=sharing" target="_blank" rel="noreferrer">Ver paper completo →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TAREA 3: Herramienta de validación académica ===== -->
+      <section class="section reveal" id="academica">
+        <div class="section-heading">
+          <div class="kicker">Validación académica comparada</div>
+          <h2>12 criterios en 4 dimensiones</h2>
+          <p>
+            Evaluación comparada de los dos papers según rigor metodológico, valor académico,
+            calidad de la literatura y coherencia textual. Haz clic en cada criterio para ver
+            las notas de evaluación.
+          </p>
+        </div>
+
+        <div class="acad-tool" id="acadTool" aria-label="Herramienta de validación académica comparada">
+          <!-- Generado por JS -->
+        </div>
+      </section>
+
+      <section class="section reveal" id="paper">
+        <div class="section-heading">
+          <div class="kicker">Resultado final</div>
+          <h2>Un paper preliminar listo para discusion</h2>
+          <p>
+            La salida se presenta como artefacto académico: útil para revisar, contrastar y mejorar,
+            no como sustituto del proceso de investigación.
+          </p>
+        </div>
+
+        <div class="paper-layout">
+          <article class="paper-cover">
+            <div class="paper-label">Discussion paper</div>
+            <h3>Does AI Adoption Improve Institutional Performance?</h3>
+            <small>Universidad del Rosario · Mayo 2026<br />Assist-IA-Research</small>
+          </article>
+
+          <div class="paper-detail">
+            <div class="paper-stats">
+              <div class="paper-stat">
+                <b>5200</b>
+                <span>Palabras</span>
+              </div>
+              <div class="paper-stat">
+                <b>16</b>
+                <span>Referencias</span>
+              </div>
+              <div class="paper-stat">
+                <b>4</b>
+                <span>Códigos JEL</span>
+              </div>
+              <div class="paper-stat">
+                <b>2h</b>
+                <span>Idea a draft</span>
+              </div>
+            </div>
+
+            <div class="method-grid">
+              <article class="method">
+                <strong>Estrategia tentativa</strong>
+                <p>Adopción escalonada de IA y estimadores modernos de diferencias en diferencias.</p>
+              </article>
+              <article class="method">
+                <strong>Outcomes</strong>
+                <p>Eficiencia administrativa, gasto institucional, procesos internos y deserción.</p>
+              </article>
+              <article class="method">
+                <strong>Brecha</strong>
+                <p>Escasez de evidencia causal para adopción de IA en educación superior latinoamericana.</p>
+              </article>
+              <article class="method">
+                <strong>Restricción clave</strong>
+                <p>Medir timing de adopción, intensidad de uso y heterogeneidad institucional.</p>
+              </article>
+            </div>
+
+            <div class="pdf-preview">
+              <header>
+                <span>Preview del documento</span>
+                <span>primera página</span>
+              </header>
+              <img src="paper-page-1.png" alt="Primera página del paper Does AI Adoption Improve Institutional Performance" />
+            </div>
+
+            <div>
+              <a class="btn btn-primary" href="https://drive.google.com/file/d/1CHYMnpIbdgftdkOhbtPdTzm_TxdmK_u6/view?usp=sharing" target="_blank" rel="noreferrer">Abrir PDF completo</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>Andrés Felipe García-Suaza · Universidad del Rosario</strong>
+      <span>LaboUR · GLO · SCORE · Alianza EFI</span>
+    </footer>
+  </div>
+
+  <script>
+    const steps = [
+      {
+        title: "De idea inicial a pregunta investigable",
+        description: "El flujo empieza con `FROM_IDEA:`: el sistema afila la intuición, evalúa factibilidad y arma un mapa mínimo de literatura.",
+        code: "FROM_IDEA",
+        input: `FROM_IDEA: Explorar impactos del uso de IA en la gestión de instituciones de educación superior, con foco en gobernanza, toma de decisiones y eficiencia administrativa.
+
+Context: adopción creciente de IA en universidades, con mucha discusión normativa pero poca evidencia causal para América Latina.
+Candidate data: universidades colombianas; indicadores de eficiencia administrativa, gasto, permanencia y resultados institucionales.
+Candidate method: DiD / adopción escalonada — dejar abierto hasta medir timing de adopción.`,
+        output: "<strong>Salida:</strong> puzzle empírico, pregunta de investigación, contribución candidata, chequeo de factibilidad, literatura mínima y estructura tentativa del paper."
+      },
+      {
+        title: "Búsqueda y mapa de literatura",
+        description: "La etapa usa `SEARCH:` y `MAP:` para pasar de una búsqueda general a una lectura comparativa por mecanismos, métodos y brechas.",
+        code: "SEARCH / MAP",
+        input: `SEARCH: AI adoption in higher education governance institutional performance administrative efficiency Latin America
+
+MAP: AI adoption in higher education and institutional performance
+
+Focus on: causal evidence, governance, administrative efficiency, student outcomes, Latin America.
+Context: I am developing a paper on whether AI adoption improves measurable institutional performance in Colombian universities.
+Flag papers closest to my comparative advantage: Colombia/LAC, institutional data, policy timing, DiD or staggered adoption designs.`,
+        output: "<strong>Salida:</strong> referencias relevantes, papers cercanos, vacíos de evidencia causal, tensión entre marcos globales y datos latinoamericanos, y rutas para posicionar la contribución."
+      },
+      {
+        title: "Síntesis del corpus",
+        description: "El sistema prepara prompts para NotebookLM y luego transfiere la síntesis al proyecto principal para construir una revisión argumental.",
+        code: "NotebookLM P1-P6",
+        input: `Prompt 1 — Mechanisms:
+Organize the uploaded papers by explanatory mechanism or theoretical argument, not by paper.
+
+Prompt 2 — Evidence:
+What do these papers say about AI adoption, governance, institutional performance and administrative efficiency?
+
+Prompt 3 — Gaps:
+Based on all uploaded papers, identify what is missing for a Colombian / Latin American paper using institutional outcomes.
+
+Transfer:
+DEVELOP: Does AI Adoption Improve Institutional Performance?
+I have run a systematic review using NotebookLM. Build a literature synthesis toward the gap.`,
+        output: "<strong>Salida:</strong> corpus organizado por mecanismos, brechas defendibles, papers críticos a citar y estructura de revisión de literatura."
+      },
+      {
+        title: "Diseño del paper",
+        description: "`DEVELOP:` convierte la síntesis en una propuesta académica: pregunta, contribución, datos, estrategia empírica y amenazas.",
+        code: "DEVELOP",
+        input: `DEVELOP: Does AI Adoption Improve Institutional Performance?
+
+Core idea: estimate whether AI adoption in higher education institutions improves administrative efficiency, institutional performance and student-related outcomes.
+
+Literature base already reviewed:
+- AI in higher education governance and decision-making.
+- AI adoption and institutional transformation.
+- Empirical studies on predictive analytics, student success and administrative efficiency.
+
+Data available: institutional data for Colombian universities; AI adoption timing to be measured.
+
+Key data advantage: Latin American setting and institutional performance outcomes.
+
+Proposed approach: staggered adoption / modern DiD if timing can be identified.
+
+Please: sharpen the research question, define the contribution relative to the closest papers, propose the empirical strategy with identification logic, flag the main threats, suggest robustness checks, and assess realistic publication potential.`,
+        output: "<strong>Salida:</strong> título, contribución, outcomes, estrategia DiD tentativa, supuestos de identificación, amenazas y pruebas de robustez."
+      },
+      {
+        title: "Redacción del working paper",
+        description: "La redacción usa las reglas de voz, estructura y estilo del proyecto para producir secciones académicas revisables.",
+        code: "Section writing",
+        input: `Read first:
+- paper-structure-template.md
+- researcher-voice.md
+- writing-samples.md
+
+Draft the paper section by section.
+
+Introduction:
+Open with the empirical puzzle — not with 'This paper studies...'
+State the contribution relative to named papers.
+Map the rest of the paper in the final paragraph.
+
+Paper: Does AI Adoption Improve Institutional Performance?
+Type: narrative review with empirical motivation and a tentative identification strategy.`,
+        output: "<strong>Salida:</strong> abstract, introducción, revisión de literatura, estrategia empírica preliminar, discusión de resultados esperados, límites y agenda de política pública."
+      }
+    ];
+
+    const stageTitle = document.querySelector("#stageTitle");
+    const stageDescription = document.querySelector("#stageDescription");
+    const stageCode = document.querySelector("#stageCode");
+    const stageInput = document.querySelector("#stageInput");
+    const stageOutput = document.querySelector("#stageOutput");
+    const tabs = [...document.querySelectorAll(".step-tab")];
+
+    function setStep(index) {
+      const step = steps[index];
+      stageTitle.textContent = step.title;
+      stageDescription.textContent = step.description;
+      stageCode.textContent = step.code;
+      stageInput.textContent = step.input;
+      stageOutput.innerHTML = step.output;
+
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === index;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setStep(Number(tab.dataset.step)));
+    });
+
+    setStep(0);
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const item = entry.target;
+        const target = Number(item.dataset.count);
+        const duration = 850;
+        const start = performance.now();
+
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          item.textContent = String(Math.round(target * progress));
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+        countObserver.unobserve(item);
+      });
+    }, { threshold: 0.9 });
+
+    document.querySelectorAll("[data-count]").forEach((el) => countObserver.observe(el));
+
+    const navLinks = [...document.querySelectorAll(".nav-links a")];
+    const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+
+    function updateScrollState() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.documentElement.style.setProperty("--progress", `${progress}%`);
+
+      let activeIndex = 0;
+      sections.forEach((section, index) => {
+        if (section && section.getBoundingClientRect().top < 170) activeIndex = index;
+      });
+
+      navLinks.forEach((link, index) => link.classList.toggle("active", index === activeIndex));
+    }
+
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    updateScrollState();
+
+    const canvas = document.querySelector("#researchCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = 0;
+    let height = 0;
+    let nodes = [];
+    let pointer = { x: -9999, y: -9999 };
+    let animationFrame = 0;
+
+    function resizeCanvas() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      const count = width < 760 ? 34 : 58;
+      nodes = Array.from({ length: count }, (_, index) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.38,
+        vy: (Math.random() - 0.5) * 0.38,
+        r: index % 7 === 0 ? 2.6 : 1.8,
+        type: index % 9
+      }));
+    }
+
+    function drawCanvas() {
+      ctx.clearRect(0, 0, width, height);
+
+      const grid = 56;
+      ctx.strokeStyle = "rgba(255,255,255,0.035)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < width; x += grid) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += grid) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      nodes.forEach((node) => {
+        const dx = pointer.x - node.x;
+        const dy = pointer.y - node.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 160) {
+          node.x -= dx * 0.0018;
+          node.y -= dy * 0.0018;
+        }
+
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
+      });
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const distance = Math.hypot(a.x - b.x, a.y - b.y);
+          if (distance < 145) {
+            const alpha = 1 - distance / 145;
+            ctx.strokeStyle = `rgba(32,211,238,${alpha * 0.24})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      nodes.forEach((node) => {
+        ctx.beginPath();
+        ctx.fillStyle = node.type === 0 ? "rgba(71,224,161,0.95)" : "rgba(141,239,255,0.86)";
+        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrame = requestAnimationFrame(drawCanvas);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("pointermove", (event) => {
+      pointer = { x: event.clientX, y: event.clientY };
+    }, { passive: true });
+
+    resizeCanvas();
+    drawCanvas();
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrame);
+      } else {
+        drawCanvas();
+      }
+    });
+
+    // ===== Herramienta de validación académica =====
+    const criteria = [
+      {
+        dimension: "I. Valor y contribución académica",
+        name: "Originalidad de la contribución",
+        desc: "¿El paper añade algo que no existe en la literatura?",
+        scoreA: 9, scoreB: 5,
+        noteA: "Primera estrategia de identificación causal para IES colombianas.",
+        noteB: "Revisión bien estructurada pero sin contribución causal propia."
+      },
+      {
+        dimension: "I. Valor y contribución académica",
+        name: "Precisión de la pregunta de investigación",
+        desc: "¿La pregunta es específica, contestable y acotada al diseño?",
+        scoreA: 9, scoreB: 4,
+        noteA: "Pregunta causal acotada: efecto de adopción sobre deserción y costos en Colombia.",
+        noteB: "Pregunta difusa: 'impactos multidimensionales' en toda LAC."
+      },
+      {
+        dimension: "I. Valor y contribución académica",
+        name: "Identificación del gap empírico",
+        desc: "¿El paper señala con precisión qué falta en la literatura?",
+        scoreA: 9, scoreB: 6,
+        noteA: "Nieto et al. (2019) predicen, no identifican. Ese es el gap.",
+        noteB: "Gap reconocido en general pero no convertido en oportunidad."
+      },
+      {
+        dimension: "II. Rigor metodológico",
+        name: "Estrategia de identificación causal",
+        desc: "¿El diseño aborda la endogeneidad? ¿Se nombra el estimador?",
+        scoreA: 9, scoreB: 6,
+        noteA: "Staggered DiD, Callaway & Sant'Anna (2021), tres fuentes de variación exógena.",
+        noteB: "DiD mencionado pero sin estimador moderno ni variación exógena nombrada."
+      },
+      {
+        dimension: "II. Rigor metodológico",
+        name: "Operacionalización de variables",
+        desc: "¿Las variables están definidas con precisión medible?",
+        scoreA: 8, scoreB: 6,
+        noteA: "Tratamiento: año de primera adopción por función. Outcomes: SNIES.",
+        noteB: "Índice AAI por factor analysis — sólido pero sin ancla de datos."
+      },
+      {
+        dimension: "II. Rigor metodológico",
+        name: "Transparencia sobre limitaciones",
+        desc: "¿El paper nombra amenazas a validez interna y cómo abordarlas?",
+        scoreA: 9, scoreB: 6,
+        noteA: "Selección, confounding tecnológico, poder — cada amenaza con robustez.",
+        noteB: "Limitaciones reconocidas pero no integradas al diseño empírico."
+      },
+      {
+        dimension: "III. Calidad de la literatura",
+        name: "Pertinencia bibliográfica",
+        desc: "¿Las referencias son las más relevantes para el argumento?",
+        scoreA: 9, scoreB: 6,
+        noteA: "18 referencias seleccionadas por función argumental.",
+        noteB: "35+ referencias cubren amplitud. Algunas canónicas pero no necesarias."
+      },
+      {
+        dimension: "III. Calidad de la literatura",
+        name: "Síntesis crítica de la literatura",
+        desc: "¿Organiza en tensiones o enumera lo que dice cada autor?",
+        scoreA: 8, scoreB: 6,
+        noteA: "Tres mecanismos de eficiencia vs. tres categorías de riesgo. Tensión estructurada.",
+        noteB: "Revisión correcta pero organizada por subtemas, no por tensiones."
+      },
+      {
+        dimension: "III. Calidad de la literatura",
+        name: "Anclaje contextual",
+        desc: "¿Usa datos reales del contexto para motivar la pregunta?",
+        scoreA: 9, scoreB: 5,
+        noteA: "Deserción >13% en Colombia 2022, variación 4:1 en gasto (SNIES, 2023).",
+        noteB: "Datos regionales generales. Sin ancla empírica de ningún país específico."
+      },
+      {
+        dimension: "IV. Coherencia y refinamiento textual",
+        name: "Coherencia argumental interna",
+        desc: "¿Cada sección construye sobre la anterior?",
+        scoreA: 9, scoreB: 6,
+        noteA: "Contexto → gap → diseño → calibración → implicaciones. Flujo necesario.",
+        noteB: "Estructura estándar. Marco conceptual no conecta con diseño empírico."
+      },
+      {
+        dimension: "IV. Coherencia y refinamiento textual",
+        name: "Voz y estilo académico",
+        desc: "¿El tono es directo y argumentativo, o genérico?",
+        scoreA: 8, scoreB: 5,
+        noteA: "'The identification problem is fundamental.' Voz de economista empírico.",
+        noteB: "'The rapid diffusion of AI...' Prosa correcta pero anónima."
+      },
+      {
+        dimension: "IV. Coherencia y refinamiento textual",
+        name: "Contribución a política pública",
+        desc: "¿Las implicaciones son específicas o genéricas?",
+        scoreA: 8, scoreB: 6,
+        noteA: "Agenda concreta para MEN y Minciencias anclada en CONPES 3975 y CNA.",
+        noteB: "Cuatro secciones de política elaboradas pero aplicables a cualquier país."
+      }
+    ];
+
+    function buildAcadTool() {
+      const container = document.getElementById("acadTool");
+      if (!container) return;
+
+      const dims = [...new Set(criteria.map(c => c.dimension))];
+      const totalA = criteria.reduce((s, c) => s + c.scoreA, 0);
+      const totalB = criteria.reduce((s, c) => s + c.scoreB, 0);
+      const maxTotal = criteria.length * 10;
+
+      let html = `
+        <div class="acad-table-head">
+          <span>Criterio</span>
+          <span class="accent-col">Ecosistema estructurado</span>
+          <span>Prompt naive</span>
+        </div>`;
+
+      dims.forEach(dim => {
+        const dimCriteria = criteria.filter(c => c.dimension === dim);
+        html += `<div class="acad-dimension" data-dim="${dim}">
+          <div class="acad-dim-header" role="button" tabindex="0" aria-expanded="true">
+            <h4 class="acad-dim-title">${dim}</h4>
+            <span class="acad-dim-toggle" aria-hidden="true">▾</span>
+          </div>
+          <div class="acad-rows">`;
+
+        dimCriteria.forEach((c, i) => {
+          const idx = criteria.indexOf(c);
+          html += `
+            <div class="acad-row" role="button" tabindex="0" aria-expanded="false" data-idx="${idx}">
+              <div>
+                <div class="acad-criterion-name">${c.name}</div>
+                <div class="acad-criterion-desc">${c.desc}</div>
+              </div>
+              <div class="acad-score-cell">
+                <div class="acad-score-value accent">${c.scoreA}<span style="font-size:0.7em;color:var(--muted)">/10</span></div>
+                <div class="acad-bar-track"><div class="acad-bar-fill accent" style="width:${c.scoreA * 10}%"></div></div>
+              </div>
+              <div class="acad-score-cell">
+                <div class="acad-score-value muted-score">${c.scoreB}<span style="font-size:0.7em;color:var(--muted)">/10</span></div>
+                <div class="acad-bar-track"><div class="acad-bar-fill muted-score" style="width:${c.scoreB * 10}%"></div></div>
+              </div>
+              <div class="acad-row-notes hidden">
+                <div class="acad-note">
+                  <div class="acad-note-label">Ecosistema estructurado</div>
+                  <p>${c.noteA}</p>
+                </div>
+                <div class="acad-note">
+                  <div class="acad-note-label">Prompt naive</div>
+                  <p>${c.noteB}</p>
+                </div>
+              </div>
+            </div>`;
+        });
+
+        html += `</div></div>`;
+      });
+
+      html += `
+        <div class="acad-totals" aria-label="Puntajes totales">
+          <div class="acad-totals-label">Total general (${maxTotal} máx.)</div>
+          <div>
+            <div class="acad-total-score accent">${totalA}/${maxTotal}</div>
+            <div class="acad-total-pct">${Math.round(totalA / maxTotal * 100)}% · Ecosistema</div>
+          </div>
+          <div>
+            <div class="acad-total-score muted-score">${totalB}/${maxTotal}</div>
+            <div class="acad-total-pct">${Math.round(totalB / maxTotal * 100)}% · Naive</div>
+          </div>
+        </div>`;
+
+      container.innerHTML = html;
+
+      container.querySelectorAll(".acad-dim-header").forEach(header => {
+        function toggleDim() {
+          const dim = header.closest(".acad-dimension");
+          const expanded = header.getAttribute("aria-expanded") === "true";
+          dim.classList.toggle("collapsed", expanded);
+          header.setAttribute("aria-expanded", String(!expanded));
+        }
+        header.addEventListener("click", toggleDim);
+        header.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleDim(); } });
+      });
+
+      container.querySelectorAll(".acad-row").forEach(row => {
+        function toggleRow() {
+          const notes = row.querySelector(".acad-row-notes");
+          const expanded = row.getAttribute("aria-expanded") === "true";
+          notes.classList.toggle("hidden", expanded);
+          row.setAttribute("aria-expanded", String(!expanded));
+        }
+        row.addEventListener("click", toggleRow);
+        row.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleRow(); } });
+      });
+    }
+
+    buildAcadTool();
+  </script>
+</body>
+</html>

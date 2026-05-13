@@ -1059,6 +1059,287 @@
       }
     }
 
+    /* ===== El problema / La solución ===== */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .ps-col-head {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.65rem;
+      margin: 0 0 1.1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .ps-col-head.problema { color: var(--navy); border-bottom-color: var(--amber); }
+    .ps-col-head.solucion { color: var(--blue); border-bottom-color: var(--blue); }
+
+    .signal.problema .signal-icon { background: rgba(255, 184, 77, 0.14); color: var(--amber); }
+    .signal.solucion .signal-icon { background: var(--blue-soft); color: var(--blue); }
+
+    /* ===== Sistema: capability cards full-width ===== */
+    .capability-full-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.07);
+    }
+
+    .capability-lg {
+      padding: 1.75rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .capability-lg:nth-child(2n) { border-right: 0; }
+    .capability-lg:nth-child(3),
+    .capability-lg:nth-child(4) { border-bottom: 0; }
+
+    .capability-lg b {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 0.85rem;
+      padding: 0 0.65rem;
+      border-radius: var(--radius);
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    .capability-lg strong {
+      display: block;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      margin-bottom: 0.65rem;
+    }
+
+    .capability-lg p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .diagram-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ===== Assessment general ===== */
+    .assessment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .assessment-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(8, 27, 58, 0.07);
+    }
+
+    .assessment-card.accent {
+      border-color: rgba(47, 107, 255, 0.35);
+      box-shadow: 0 14px 40px rgba(47, 107, 255, 0.12);
+    }
+
+    .assessment-card-head {
+      padding: 1.25rem 1.25rem 1rem;
+    }
+
+    .assessment-score-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .assessment-score-big {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.6rem;
+      font-weight: 740;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .assessment-score-big.accent { color: var(--blue); }
+    .assessment-score-big.muted-score { color: var(--muted); }
+
+    .assessment-score-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 0.2rem;
+    }
+
+    .assessment-dims {
+      flex: 1;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .assessment-dim {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem;
+      align-items: center;
+      font-size: 0.78rem;
+    }
+
+    .assessment-dim-label { color: var(--muted); }
+
+    .assessment-dim-score { color: var(--navy); font-weight: 760; }
+
+    .assessment-dim-track {
+      grid-column: 1 / -1;
+      height: 4px;
+      background: var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: -0.15rem;
+    }
+
+    .assessment-dim-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .assessment-dim-fill.accent { background: var(--blue); }
+    .assessment-dim-fill.muted-score { background: #c0cbd8; }
+
+    .assessment-body { padding: 1rem 1.25rem; }
+
+    .assessment-section-label {
+      font-size: 0.74rem;
+      font-weight: 820;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0.75rem 0 0.4rem;
+    }
+
+    .assessment-section-label:first-child { margin-top: 0; }
+
+    .assessment-points {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .assessment-points li {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.91rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .assessment-points li::before {
+      content: "→";
+      color: var(--blue);
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      margin-top: 0.05rem;
+    }
+
+    @media (max-width: 760px) {
+      .ps-grid,
+      .assessment-grid { grid-template-columns: 1fr; }
+
+      .capability-full-grid { grid-template-columns: 1fr; }
+
+      .capability-lg {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .capability-lg:nth-child(4) { border-bottom: 0; }
+
+      .diagram-row { grid-template-columns: 1fr; }
+    }
+
+    /* ===== Sistema: descripción lifecycle ===== */
+    .system-desc {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .system-desc > p {
+      color: #35527b;
+      font-size: 1.03rem;
+      line-height: 1.75;
+    }
+
+    .lifecycle-steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.6rem;
+      counter-reset: lc;
+    }
+
+    .lifecycle-steps li {
+      counter-increment: lc;
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(8, 27, 58, 0.05);
+      font-size: 0.94rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .lifecycle-steps li::before {
+      content: counter(lc, decimal-leading-zero);
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius);
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 0.76rem;
+      font-weight: 840;
+      flex-shrink: 0;
+    }
+
+    .lifecycle-steps li strong {
+      color: var(--navy);
+    }
+
+    .system-note {
+      padding: 0.75rem 0.9rem;
+      border-left: 3px solid var(--mint);
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      background: #fff;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
     /* ===== Comparación de outputs ===== */
     .comparison-grid {
       display: grid;
@@ -1428,13 +1709,12 @@
           <span>Assist-IA-Research</span>
         </a>
         <div class="nav-links">
+          <a href="#problema">Contexto</a>
+          <a href="#validacion">Alcance</a>
           <a href="#sistema">Sistema</a>
-          <a href="#problema">Problema</a>
           <a href="#flujo">Flujo</a>
-          <a href="#validacion">Validación</a>
           <a href="#comparacion">Comparación</a>
-          <a href="#academica">Académica</a>
-          <a href="#paper">Paper</a>
+          <a href="#academica">Evaluación</a>
         </div>
       </nav>
       <div class="progress-line" aria-hidden="true"></div>
@@ -1450,200 +1730,82 @@
             Un sistema de apoyo que convierte una idea inicial en agenda estructurada,
             revisión de literatura, diseño empírico preliminar y primer borrador académico.
           </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#flujo">Ver flujo de trabajo</a>
-            <a class="btn btn-secondary" href="https://drive.google.com/file/d/1CHYMnpIbdgftdkOhbtPdTzm_TxdmK_u6/view?usp=sharing" target="_blank" rel="noreferrer">Ver paper completo</a>
-          </div>
-          <div class="hero-metrics" aria-label="Metricas del proyecto">
-            <div class="metric">
-              <span class="value" data-count="5">0</span>
-              <span class="label">Etapas</span>
-            </div>
-            <div class="metric">
-              <span class="value" data-count="16">0</span>
-              <span class="label">Referencias</span>
-            </div>
-            <div class="metric">
-              <span class="value">~2h</span>
-              <span class="label">Idea a draft</span>
-            </div>
-            <div class="metric">
-              <span class="value" data-count="1">0</span>
-              <span class="label">Paper preliminar</span>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section class="section reveal" id="sistema">
-        <div class="section-heading">
-          <div class="kicker">Arquitectura del proyecto</div>
-          <h2>Un sistema de investigación con comandos, memoria y ciclo de paper</h2>
-          <p>
-            Assist-IA-Research no es solo un chatbot: combina una base de conocimiento,
-            comandos de investigación y un flujo que conecta detección de ideas,
-            búsqueda, síntesis, redacción y revisión.
-          </p>
-        </div>
-
-        <div class="system-grid">
-          <div class="capability-grid" aria-label="Acciones principales del sistema">
-            <article class="capability">
-              <b>Detect</b>
-              <strong>Monitorear oportunidades</strong>
-              <p>Identifica temas emergentes y señales que pueden convertirse en una idea de paper.</p>
-            </article>
-            <article class="capability">
-              <b>Explore</b>
-              <strong>Buscar y mapear literatura</strong>
-              <p>Usa <code>SEARCH:</code>, <code>MAP:</code> y <code>ANALYZE:</code> para encontrar papers, comparar mecanismos y ubicar brechas.</p>
-            </article>
-            <article class="capability">
-              <b>Build</b>
-              <strong>Convertir ideas en diseño</strong>
-              <p><code>FROM_IDEA:</code> y <code>DEVELOP:</code> afinan la pregunta, la contribución, los datos y la estrategia empírica.</p>
-            </article>
-            <article class="capability">
-              <b>Write</b>
-              <strong>Redactar y revisar secciones</strong>
-              <p>Aplica `researcher-voice.md`, `writing-samples.md` y `paper-structure-template.md` para producir prosa académica consistente.</p>
-            </article>
-          </div>
-
-          <div class="diagram-gallery">
-            <article class="diagram-card">
-              <header>Paper lifecycle <span>de señal a envío</span></header>
-              <img class="diagram-frame" src="paper_lifecycle_v3.svg" alt="Ciclo de vida del paper y comandos del sistema" />
-            </article>
-            <article class="diagram-card">
-              <header>Command table <span>acciones disponibles</span></header>
-              <img class="diagram-frame" src="command_table_v2.svg" alt="Tabla de comandos del proyecto de investigación" />
-            </article>
-            <article class="diagram-card">
-              <header>Tool connections <span>herramientas y memoria</span></header>
-              <img class="diagram-frame" src="tools_connections_v4.svg" alt="Conexiones entre herramientas, comandos y archivos del proyecto" />
-            </article>
-          </div>
-        </div>
-      </section>
-
+      <!-- 1. El problema / La solución -->
       <section class="section reveal" id="problema">
         <div class="section-heading">
           <div class="kicker">Contexto</div>
-          <h2>La investigación académica avanza entre fragmentos</h2>
-          <p>
-            La propuesta gana fuerza cuando se presenta como infraestructura: un sistema
-            que ordena, tensiona y acelera ciclos sin reemplazar el juicio experto del investigador.
-          </p>
+          <h2>El problema y la solución</h2>
         </div>
-
-        <div class="problem-grid">
-          <div class="problem-text">
-            <p>
-              Assist-IA-Research puede mostrarse menos como una página informativa y más como una
-              demostración navegable de un proceso: de una intuición inicial a un artefacto
-              académico que puede revisarse, corregirse y defenderse.
-            </p>
-            <p>
-              El tono ideal combina autoridad universitaria, lenguaje claro y señales visuales de
-              sistema: mapas, etapas, entradas, salidas, límites y evidencia.
-            </p>
+        <div class="ps-grid">
+          <div>
+            <h3 class="ps-col-head problema">El problema</h3>
+            <div class="signal-list">
+              <article class="signal problema">
+                <div class="signal-icon">01</div>
+                <div>
+                  <strong>Procesos fragmentados</strong>
+                  <p>La investigación académica exige coordinar búsquedas, evidencia, redacción y validación en flujos dispersos.</p>
+                </div>
+              </article>
+              <article class="signal problema">
+                <div class="signal-icon">02</div>
+                <div>
+                  <strong>Asistentes genéricos</strong>
+                  <p>Los asistentes de propósito general no entienden estructura metodológica, trazabilidad ni estándares académicos.</p>
+                </div>
+              </article>
+              <article class="signal problema">
+                <div class="signal-icon">03</div>
+                <div>
+                  <strong>Tiempo perdido en organización</strong>
+                  <p>Gran parte del tiempo del investigador se pierde organizando información en lugar de producir conocimiento.</p>
+                </div>
+              </article>
+            </div>
           </div>
-
-          <div class="signal-list">
-            <article class="signal">
-              <div class="signal-icon">01</div>
-              <div>
-                <strong>Menos plantilla, más producto</strong>
-                <p>La página debe sentirse como una demo viva, no solo como una ficha de proyecto.</p>
-              </div>
-            </article>
-            <article class="signal">
-              <div class="signal-icon">02</div>
-              <div>
-                <strong>Más jerarquía visual</strong>
-                <p>Las ideas clave necesitan respirar: titulares, métricas, paneles y rutas claras.</p>
-              </div>
-            </article>
-            <article class="signal">
-              <div class="signal-icon">03</div>
-              <div>
-                <strong>Rigor sin pesadez</strong>
-                <p>La validación metodológica debe aparecer como parte central de la experiencia.</p>
-              </div>
-            </article>
+          <div>
+            <h3 class="ps-col-head solucion">La solución</h3>
+            <div class="signal-list">
+              <article class="signal solucion">
+                <div class="signal-icon">01</div>
+                <div>
+                  <strong>Asistente diseñado para flujos académicos</strong>
+                  <p>Un sistema construido específicamente para las exigencias metodológicas del trabajo académico.</p>
+                </div>
+              </article>
+              <article class="signal solucion">
+                <div class="signal-icon">02</div>
+                <div>
+                  <strong>Sistema integrado</strong>
+                  <p>Integración de búsqueda, organización de evidencia, revisión metodológica y generación de productos en un mismo entorno.</p>
+                </div>
+              </article>
+              <article class="signal solucion">
+                <div class="signal-icon">03</div>
+                <div>
+                  <strong>Acelera sin sustituir</strong>
+                  <p>Un entorno que acelera ciclos de investigación sin sustituir el criterio ni la supervisión del investigador.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="workflow-wrap" id="flujo">
-        <section class="section reveal">
-          <div class="section-heading">
-            <div class="kicker">Flujo de trabajo</div>
-            <h2>Cinco pasos, un paper reproducible</h2>
-            <p>
-              Cada etapa muestra cómo una interacción con IA se transforma en insumo académico:
-              pregunta, mapa de literatura, estrategia empírica o borrador estructurado.
-            </p>
-          </div>
-
-          <div class="workflow-layout">
-            <div class="step-tabs" role="tablist" aria-label="Etapas del flujo de trabajo">
-              <button class="step-tab active" type="button" data-step="0" role="tab" aria-selected="true">
-                <span>01</span><strong>Idea</strong>
-              </button>
-              <button class="step-tab" type="button" data-step="1" role="tab" aria-selected="false">
-                <span>02</span><strong>Búsqueda</strong>
-              </button>
-              <button class="step-tab" type="button" data-step="2" role="tab" aria-selected="false">
-                <span>03</span><strong>Síntesis</strong>
-              </button>
-              <button class="step-tab" type="button" data-step="3" role="tab" aria-selected="false">
-                <span>04</span><strong>Diseño</strong>
-              </button>
-              <button class="step-tab" type="button" data-step="4" role="tab" aria-selected="false">
-                <span>05</span><strong>Redacción</strong>
-              </button>
-            </div>
-
-            <div class="workflow-stage" aria-live="polite">
-              <div class="stage-header">
-                <h3 id="stageTitle"></h3>
-                <p id="stageDescription"></p>
-              </div>
-
-              <div class="stage-grid">
-                <article class="io-panel input">
-                  <div class="io-head">Prompt fiel <span id="stageCode"></span></div>
-                  <div class="io-body" id="stageInput"></div>
-                </article>
-
-                <article class="io-panel output">
-                  <div class="io-head">Salida producida <span>verificable</span></div>
-                  <div class="io-body" id="stageOutput"></div>
-                </article>
-              </div>
-
-              <div class="stage-note">
-                <strong>Fuente del flujo:</strong> comandos y plantillas de <code>prompt-templates-commands.md</code>, <code>system-prompt-research-project.md</code>,
-                <code>researcher-voice.md</code> y <code>paper-structure-template.md</code>.
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
+      <!-- 2. Alcance: qué produce y qué no reemplaza -->
       <section class="validation-band" id="validacion">
         <div class="section reveal">
           <div class="section-heading">
-              <div class="kicker">Validación</div>
-              <h2>Qué produce y qué no reemplaza</h2>
-              <p>
+            <div class="kicker">Alcance</div>
+            <h2>Qué produce y qué no reemplaza</h2>
+            <p>
               El valor no está en automatizar pensamiento académico, sino en reducir el tiempo
               entre intuición, estructura, revisión y debate informado.
             </p>
           </div>
-
           <div class="limits">
             <article class="limit">
               <strong>Produce</strong>
@@ -1665,7 +1827,106 @@
         </div>
       </section>
 
-      <!-- ===== TAREA 2: Comparación de outputs ===== -->
+      <!-- 3. Sistema: comandos, memoria y ciclo de paper -->
+      <section class="section reveal" id="sistema">
+        <div class="section-heading">
+          <div class="kicker">Arquitectura del proyecto</div>
+          <h2>Un sistema de investigación con comandos, memoria y ciclo de paper</h2>
+          <p>
+            Assist-IA-Research combina una base de conocimiento, comandos especializados
+            y un flujo que conecta detección de ideas, búsqueda, síntesis, redacción y revisión.
+          </p>
+        </div>
+
+        <div class="capability-full-grid" aria-label="Acciones principales del sistema">
+          <article class="capability-lg">
+            <b>Detect</b>
+            <strong>Monitorear oportunidades</strong>
+            <p>Identifica temas emergentes y señales que pueden convertirse en una idea de paper.</p>
+          </article>
+          <article class="capability-lg">
+            <b>Explore</b>
+            <strong>Buscar y mapear literatura</strong>
+            <p>Usa <code>SEARCH:</code>, <code>MAP:</code> y <code>ANALYZE:</code> para encontrar papers, comparar mecanismos y ubicar brechas.</p>
+          </article>
+          <article class="capability-lg">
+            <b>Build</b>
+            <strong>Convertir ideas en diseño</strong>
+            <p><code>FROM_IDEA:</code> y <code>DEVELOP:</code> afinan la pregunta, la contribución, los datos y la estrategia empírica.</p>
+          </article>
+          <article class="capability-lg">
+            <b>Write</b>
+            <strong>Redactar y revisar secciones</strong>
+            <p>Aplica <code>researcher-voice.md</code>, <code>writing-samples.md</code> y <code>paper-structure-template.md</code> para producir prosa académica consistente.</p>
+          </article>
+        </div>
+
+        <div class="diagram-row">
+          <article class="diagram-card">
+            <header>Command table <span>acciones disponibles</span></header>
+            <img class="diagram-frame" src="command_table_v2.svg" alt="Tabla de comandos del proyecto de investigación" />
+          </article>
+          <article class="diagram-card">
+            <header>Tool connections <span>herramientas y memoria</span></header>
+            <img class="diagram-frame" src="tools_connections_v4.svg" alt="Conexiones entre herramientas, comandos y archivos del proyecto" />
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Flujo de trabajo -->
+      <div class="workflow-wrap" id="flujo">
+        <section class="section reveal">
+          <div class="section-heading">
+            <div class="kicker">Flujo de trabajo</div>
+            <h2>Cinco pasos, un paper reproducible</h2>
+            <p>
+              Cada etapa muestra cómo una interacción con IA se transforma en insumo académico:
+              pregunta, mapa de literatura, estrategia empírica o borrador estructurado.
+            </p>
+          </div>
+          <div class="workflow-layout">
+            <div class="step-tabs" role="tablist" aria-label="Etapas del flujo de trabajo">
+              <button class="step-tab active" type="button" data-step="0" role="tab" aria-selected="true">
+                <span>01</span><strong>Idea</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="1" role="tab" aria-selected="false">
+                <span>02</span><strong>Búsqueda</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="2" role="tab" aria-selected="false">
+                <span>03</span><strong>Síntesis</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="3" role="tab" aria-selected="false">
+                <span>04</span><strong>Diseño</strong>
+              </button>
+              <button class="step-tab" type="button" data-step="4" role="tab" aria-selected="false">
+                <span>05</span><strong>Redacción</strong>
+              </button>
+            </div>
+            <div class="workflow-stage" aria-live="polite">
+              <div class="stage-header">
+                <h3 id="stageTitle"></h3>
+                <p id="stageDescription"></p>
+              </div>
+              <div class="stage-grid">
+                <article class="io-panel input">
+                  <div class="io-head">Prompt fiel <span id="stageCode"></span></div>
+                  <div class="io-body" id="stageInput"></div>
+                </article>
+                <article class="io-panel output">
+                  <div class="io-head">Salida producida <span>verificable</span></div>
+                  <div class="io-body" id="stageOutput"></div>
+                </article>
+              </div>
+              <div class="stage-note">
+                <strong>Fuente del flujo:</strong> comandos y plantillas de <code>prompt-templates-commands.md</code>, <code>system-prompt-research-project.md</code>,
+                <code>researcher-voice.md</code> y <code>paper-structure-template.md</code>.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 5. Comparación de outputs -->
       <section class="section reveal" id="comparacion">
         <div class="section-heading">
           <div class="kicker">Comparación de outputs</div>
@@ -1676,9 +1937,7 @@
             el anclaje empírico.
           </p>
         </div>
-
         <div class="comparison-grid">
-          <!-- Columna izquierda: naive -->
           <div class="comparison-col">
             <div class="comparison-col-head">
               <div class="comparison-badge">Prompt directo</div>
@@ -1696,11 +1955,9 @@
               </ul>
             </div>
             <div class="comparison-footer">
-              <span class="btn" style="min-height:42px;color:var(--muted);border:1px solid var(--line);background:var(--paper);cursor:default;font-size:0.9rem;">Ver paper naive · PDF próximamente</span>
+              <a class="btn" href="AI_HEI_Colombia_WorkingPaper_Naive.pdf" target="_blank" rel="noreferrer" style="min-height:42px;color:var(--navy);border:1px solid var(--line);background:var(--paper);">Ver paper naive →</a>
             </div>
           </div>
-
-          <!-- Columna derecha: estructurado -->
           <div class="comparison-col accent">
             <div class="comparison-col-head">
               <div class="comparison-badge accent">Ecosistema estructurado</div>
@@ -1724,89 +1981,112 @@
         </div>
       </section>
 
-      <!-- ===== TAREA 3: Herramienta de validación académica ===== -->
+      <!-- 6. Evaluación general -->
       <section class="section reveal" id="academica">
         <div class="section-heading">
-          <div class="kicker">Validación académica comparada</div>
-          <h2>12 criterios en 4 dimensiones</h2>
+          <div class="kicker">Evaluación académica</div>
+          <h2>Evaluación general de los dos papers</h2>
           <p>
-            Evaluación comparada de los dos papers según rigor metodológico, valor académico,
-            calidad de la literatura y coherencia textual. Haz clic en cada criterio para ver
-            las notas de evaluación.
+            Síntesis comparativa en cuatro dimensiones: valor académico, rigor metodológico,
+            calidad de la literatura y coherencia textual.
           </p>
         </div>
-
-        <div class="acad-tool" id="acadTool" aria-label="Herramienta de validación académica comparada">
-          <!-- Generado por JS -->
-        </div>
-      </section>
-
-      <section class="section reveal" id="paper">
-        <div class="section-heading">
-          <div class="kicker">Resultado final</div>
-          <h2>Un paper preliminar listo para discusion</h2>
-          <p>
-            La salida se presenta como artefacto académico: útil para revisar, contrastar y mejorar,
-            no como sustituto del proceso de investigación.
-          </p>
-        </div>
-
-        <div class="paper-layout">
-          <article class="paper-cover">
-            <div class="paper-label">Discussion paper</div>
-            <h3>Does AI Adoption Improve Institutional Performance?</h3>
-            <small>Universidad del Rosario · Mayo 2026<br />Assist-IA-Research</small>
-          </article>
-
-          <div class="paper-detail">
-            <div class="paper-stats">
-              <div class="paper-stat">
-                <b>5200</b>
-                <span>Palabras</span>
+        <div class="assessment-grid">
+          <!-- Naive -->
+          <div class="assessment-card">
+            <div class="assessment-card-head">
+              <div class="comparison-badge">Prompt directo</div>
+              <h3 class="comparison-col-title">Artificial Intelligence Adoption in Higher Education Institutions in Latin America</h3>
+            </div>
+            <div class="assessment-score-row">
+              <div>
+                <div class="assessment-score-big muted-score">20<span style="font-size:1rem;color:var(--muted);font-family:inherit">/40</span></div>
+                <div class="assessment-score-label">Puntaje general · 50%</div>
               </div>
-              <div class="paper-stat">
-                <b>16</b>
-                <span>Referencias</span>
-              </div>
-              <div class="paper-stat">
-                <b>4</b>
-                <span>Códigos JEL</span>
-              </div>
-              <div class="paper-stat">
-                <b>2h</b>
-                <span>Idea a draft</span>
+              <div class="assessment-dims">
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Valor académico</span>
+                  <span class="assessment-dim-score">4/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill muted-score" style="width:40%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Rigor metodológico</span>
+                  <span class="assessment-dim-score">6/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill muted-score" style="width:60%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Calidad de literatura</span>
+                  <span class="assessment-dim-score">5/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill muted-score" style="width:50%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Coherencia textual</span>
+                  <span class="assessment-dim-score">5/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill muted-score" style="width:50%"></div></div>
+                </div>
               </div>
             </div>
-
-            <div class="method-grid">
-              <article class="method">
-                <strong>Estrategia tentativa</strong>
-                <p>Adopción escalonada de IA y estimadores modernos de diferencias en diferencias.</p>
-              </article>
-              <article class="method">
-                <strong>Outcomes</strong>
-                <p>Eficiencia administrativa, gasto institucional, procesos internos y deserción.</p>
-              </article>
-              <article class="method">
-                <strong>Brecha</strong>
-                <p>Escasez de evidencia causal para adopción de IA en educación superior latinoamericana.</p>
-              </article>
-              <article class="method">
-                <strong>Restricción clave</strong>
-                <p>Medir timing de adopción, intensidad de uso y heterogeneidad institucional.</p>
-              </article>
+            <div class="assessment-body">
+              <p class="assessment-section-label">Fortalezas</p>
+              <ul class="assessment-points">
+                <li>Revisión narrativa amplia con 35+ referencias regionales</li>
+                <li>Marco teórico bien estructurado: UTAUT, institutional theory, human capital</li>
+                <li>Cuatro secciones de implicaciones de política pública</li>
+              </ul>
+              <p class="assessment-section-label">Limitaciones</p>
+              <ul class="assessment-points">
+                <li>Pregunta difusa — impactos multidimensionales en toda LAC sin acotamiento causal</li>
+                <li>Sin estrategia de identificación ni estimador moderno nombrado</li>
+                <li>Sin ancla empírica específica; datos regionales genéricos</li>
+              </ul>
             </div>
-
-            <div class="pdf-preview">
-              <header>
-                <span>Preview del documento</span>
-                <span>primera página</span>
-              </header>
-              <img src="paper-page-1.png" alt="Primera página del paper Does AI Adoption Improve Institutional Performance" />
+          </div>
+          <!-- Estructurado -->
+          <div class="assessment-card accent">
+            <div class="assessment-card-head">
+              <div class="comparison-badge accent">Ecosistema estructurado</div>
+              <h3 class="comparison-col-title">Does AI Adoption Improve Institutional Performance? Evidence from Colombian Higher Education</h3>
             </div>
-
-            <div>
-              <a class="btn btn-primary" href="https://drive.google.com/file/d/1CHYMnpIbdgftdkOhbtPdTzm_TxdmK_u6/view?usp=sharing" target="_blank" rel="noreferrer">Abrir PDF completo</a>
+            <div class="assessment-score-row">
+              <div>
+                <div class="assessment-score-big accent">35<span style="font-size:1rem;color:var(--muted);font-family:inherit">/40</span></div>
+                <div class="assessment-score-label">Puntaje general · 88%</div>
+              </div>
+              <div class="assessment-dims">
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Valor académico</span>
+                  <span class="assessment-dim-score">9/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill accent" style="width:90%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Rigor metodológico</span>
+                  <span class="assessment-dim-score">9/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill accent" style="width:90%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Calidad de literatura</span>
+                  <span class="assessment-dim-score">9/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill accent" style="width:90%"></div></div>
+                </div>
+                <div class="assessment-dim">
+                  <span class="assessment-dim-label">Coherencia textual</span>
+                  <span class="assessment-dim-score">8/10</span>
+                  <div class="assessment-dim-track"><div class="assessment-dim-fill accent" style="width:80%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="assessment-body">
+              <p class="assessment-section-label">Fortalezas</p>
+              <ul class="assessment-points">
+                <li>Pregunta causal acotada: efecto de adopción sobre deserción y costos en Colombia</li>
+                <li>Staggered DiD con Callaway &amp; Sant'Anna (2021) y tres fuentes de variación exógena</li>
+                <li>Anclaje empírico real: deserción &gt;13% Colombia 2022, variación 4:1 en gasto (SNIES)</li>
+              </ul>
+              <p class="assessment-section-label">Limitaciones</p>
+              <ul class="assessment-points">
+                <li>Calibración de magnitudes preliminar, pendiente de datos reales de adopción</li>
+                <li>Working paper: requiere revisión experta antes de envío a journal</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -2096,27 +2376,11 @@ Type: narrative review with empirical motivation and a tentative identification 
     const criteria = [
       {
         dimension: "I. Valor y contribución académica",
-        name: "Originalidad de la contribución",
-        desc: "¿El paper añade algo que no existe en la literatura?",
-        scoreA: 9, scoreB: 5,
-        noteA: "Primera estrategia de identificación causal para IES colombianas.",
-        noteB: "Revisión bien estructurada pero sin contribución causal propia."
-      },
-      {
-        dimension: "I. Valor y contribución académica",
         name: "Precisión de la pregunta de investigación",
         desc: "¿La pregunta es específica, contestable y acotada al diseño?",
         scoreA: 9, scoreB: 4,
         noteA: "Pregunta causal acotada: efecto de adopción sobre deserción y costos en Colombia.",
         noteB: "Pregunta difusa: 'impactos multidimensionales' en toda LAC."
-      },
-      {
-        dimension: "I. Valor y contribución académica",
-        name: "Identificación del gap empírico",
-        desc: "¿El paper señala con precisión qué falta en la literatura?",
-        scoreA: 9, scoreB: 6,
-        noteA: "Nieto et al. (2019) predicen, no identifican. Ese es el gap.",
-        noteB: "Gap reconocido en general pero no convertido en oportunidad."
       },
       {
         dimension: "II. Rigor metodológico",
@@ -2125,38 +2389,6 @@ Type: narrative review with empirical motivation and a tentative identification 
         scoreA: 9, scoreB: 6,
         noteA: "Staggered DiD, Callaway & Sant'Anna (2021), tres fuentes de variación exógena.",
         noteB: "DiD mencionado pero sin estimador moderno ni variación exógena nombrada."
-      },
-      {
-        dimension: "II. Rigor metodológico",
-        name: "Operacionalización de variables",
-        desc: "¿Las variables están definidas con precisión medible?",
-        scoreA: 8, scoreB: 6,
-        noteA: "Tratamiento: año de primera adopción por función. Outcomes: SNIES.",
-        noteB: "Índice AAI por factor analysis — sólido pero sin ancla de datos."
-      },
-      {
-        dimension: "II. Rigor metodológico",
-        name: "Transparencia sobre limitaciones",
-        desc: "¿El paper nombra amenazas a validez interna y cómo abordarlas?",
-        scoreA: 9, scoreB: 6,
-        noteA: "Selección, confounding tecnológico, poder — cada amenaza con robustez.",
-        noteB: "Limitaciones reconocidas pero no integradas al diseño empírico."
-      },
-      {
-        dimension: "III. Calidad de la literatura",
-        name: "Pertinencia bibliográfica",
-        desc: "¿Las referencias son las más relevantes para el argumento?",
-        scoreA: 9, scoreB: 6,
-        noteA: "18 referencias seleccionadas por función argumental.",
-        noteB: "35+ referencias cubren amplitud. Algunas canónicas pero no necesarias."
-      },
-      {
-        dimension: "III. Calidad de la literatura",
-        name: "Síntesis crítica de la literatura",
-        desc: "¿Organiza en tensiones o enumera lo que dice cada autor?",
-        scoreA: 8, scoreB: 6,
-        noteA: "Tres mecanismos de eficiencia vs. tres categorías de riesgo. Tensión estructurada.",
-        noteB: "Revisión correcta pero organizada por subtemas, no por tensiones."
       },
       {
         dimension: "III. Calidad de la literatura",
@@ -2168,27 +2400,11 @@ Type: narrative review with empirical motivation and a tentative identification 
       },
       {
         dimension: "IV. Coherencia y refinamiento textual",
-        name: "Coherencia argumental interna",
-        desc: "¿Cada sección construye sobre la anterior?",
-        scoreA: 9, scoreB: 6,
-        noteA: "Contexto → gap → diseño → calibración → implicaciones. Flujo necesario.",
-        noteB: "Estructura estándar. Marco conceptual no conecta con diseño empírico."
-      },
-      {
-        dimension: "IV. Coherencia y refinamiento textual",
         name: "Voz y estilo académico",
         desc: "¿El tono es directo y argumentativo, o genérico?",
         scoreA: 8, scoreB: 5,
         noteA: "'The identification problem is fundamental.' Voz de economista empírico.",
         noteB: "'The rapid diffusion of AI...' Prosa correcta pero anónima."
-      },
-      {
-        dimension: "IV. Coherencia y refinamiento textual",
-        name: "Contribución a política pública",
-        desc: "¿Las implicaciones son específicas o genéricas?",
-        scoreA: 8, scoreB: 6,
-        noteA: "Agenda concreta para MEN y Minciencias anclada en CONPES 3975 y CNA.",
-        noteB: "Cuatro secciones de política elaboradas pero aplicables a cualquier país."
       }
     ];
 
